@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}My uploads · SentimentIQ{% endblock %}
+{% block content %}
+<div class="row">
+  <h2>My uploads</h2>
+  <div>
+    <a class="btn ghost" href="{% url 'manual_feedback' %}">Add feedback</a>
+    <a class="btn" href="{% url 'csv_upload' %}">Upload CSV</a>
+  </div>
+</div>
+
+<div class="card">
+  {% if uploads %}
+  <table class="table">
+    <tr><th>Name</th><th>Type</th><th>Feedbacks</th><th>Created</th><th></th></tr>
+    {% for u in uploads %}
+    <tr>
+      <td><a href="{% url 'upload_detail' u.pk %}">{{ u.name }}</a></td>
+      <td>{{ u.get_source_display }}</td>
+      <td>{{ u.n }}</td>
+      <td>{{ u.created_at|date:"d M Y, H:i" }}</td>
+      <td>
+        <form method="post" action="{% url 'upload_delete' u.pk %}" class="inline"
+              onsubmit="return confirm('Delete this upload and all its results?');">
+          {% csrf_token %}
+          <button type="submit" class="link-btn danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p class="muted">No uploads yet. Add a feedback or upload a CSV to get started.</p>
+  {% endif %}
+</div>
+{% endblock %}

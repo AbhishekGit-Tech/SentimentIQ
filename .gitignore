@@ -1,0 +1,22 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+db.sqlite3
+
+.env
+*.env
+
+.vscode/
+
+*.log
+
+*.parquet
+
+# Large datasets
+ml/data/*
+
+# Keep trained ML models if they are required by the project
+# *.joblib

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Turn customer feedback into <span>insights</span></h1>
+  <p>Upload a CSV or type a review. SentimentIQ finds the sentiment, the topics people talk about,
+     and the issues that keep coming back.</p>
+  {% if user.is_authenticated %}
+    <a class="btn" href="{% url 'dashboard' %}">Go to Dashboard</a>
+  {% else %}
+    <a class="btn" href="{% url 'register' %}">Get started</a>
+    <a class="btn ghost" href="{% url 'login' %}">Login</a>
+  {% endif %}
+</section>
+
+<section class="grid">
+  <div class="card"><h3>Sentiment</h3><p>Positive, neutral or negative for every review.</p></div>
+  <div class="card"><h3>Aspects</h3><p>Delivery, price, quality, staff and more, detected automatically.</p></div>
+  <div class="card"><h3>Trends</h3><p>See whether feedback is improving or getting worse over time.</p></div>
+</section>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ upload.name }} · SentimentIQ{% endblock %}
+{% block content %}
+<div class="row">
+  <h2>{{ upload.name }}</h2>
+  <a class="btn ghost" href="{% url 'upload_list' %}">← All uploads</a>
+</div>
+
+<div class="grid">
+  {% for s in summary %}
+  <div class="card">
+    <h3>{{ s.pct }}%</h3>
+    <span class="pill {{ s.label|lower }}">{{ s.label }}</span>
+    <span class="muted">{{ s.count }} of {{ total }}</span>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="card" style="margin-top:16px">
+  <table class="table">
+    <tr><th>Feedback</th><th>Overall</th><th>Aspects</th></tr>
+    {% for fb in page %}
+    <tr>
+      <td>{{ fb.text|truncatechars:160 }}</td>
+      <td><span class="pill {{ fb.overall_sentiment|lower }}">{{ fb.overall_sentiment }}</span></td>
+      <td>{% for ar in fb.aspect_results.all %}<span class="tag {{ ar.sentiment|lower }}">{{ ar.aspect }}</span>{% endfor %}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <div class="pager">
+    {% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">← Prev</a>{% endif %}
+    <span class="muted">Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+    {% if page.has_next %}<a href="?page={{ page.next_page_number }}">Next →</a>{% endif %}
+  </div>
+</div>
+{% endblock %}

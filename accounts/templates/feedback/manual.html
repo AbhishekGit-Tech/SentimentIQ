@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Add feedback · SentimentIQ{% endblock %}
+{% block content %}
+<div class="card form-card">
+  <h2>Analyse a feedback</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Analyse</button>
+  </form>
+</div>
+
+{% if result %}
+<div class="card form-card">
+  <h3>Result</h3>
+  <p>Overall:
+    <span class="pill {{ result.overall|lower }}">{{ result.overall }}</span>
+    <span class="muted">{% widthratio result.confidence 1 100 %}% confidence</span>
+  </p>
+  {% for seg in result.segments %}
+  <div class="segment">
+    <div>“{{ seg.text }}”</div>
+    <div>
+      <span class="pill {{ seg.sentiment|lower }}">{{ seg.sentiment }}</span>
+      {% for a in seg.aspects %}<span class="tag">{{ a }}</span>{% endfor %}
+      <span class="muted">{% widthratio seg.confidence 1 100 %}%</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
